@@ -9,7 +9,6 @@
 
 #include <ros/callback_queue.h>
 #include <tf/transform_broadcaster.h>
-#include <hector_uav_msgs/Altimeter.h>
 
 #include <rl_common/core.hh>
 #include <rl_common/Random.h>
@@ -24,6 +23,7 @@
 #include <rl_env/MountainCar.hh>
 #include <rl_env/CartPole.hh>
 #include <rl_env/LightWorld.hh>
+#include <rl_env/Quadrotor.hh>
 
 #include <getopt.h>
 #include <stdlib.h>
@@ -50,7 +50,7 @@ bool highvar = false;
 
 void displayHelp(){
   cout << "\n Call env --env type [options]\n";
-  cout << "Env types: taxi tworooms fourrooms energy fuelworld mcar cartpole car2to7 car7to2 carrandom stocks lightworld\n";
+  cout << "Env types: taxi tworooms fourrooms energy fuelworld mcar cartpole car2to7 car7to2 carrandom stocks lightworld quadrotor\n";
   cout << "\n Options:\n";
   cout << "--seed value (integer seed for random number generator)\n";
   cout << "--deterministic (deterministic version of domain)\n";
@@ -176,6 +176,12 @@ void initEnvironment(){
     e = new Stocks(rng, stochastic, nsectors, nstocks);
   }
 
+  // quadrotor
+  else if (strcmp(envType, "quadrotor") == 0){
+    desc.title = "Environment: Quadrotor\n";
+    e = new Quadrotor(rng, stochastic);
+  }
+
   else {
     std::cerr << "Invalid env type" << endl;
     displayHelp();
@@ -229,10 +235,6 @@ void initEnvironment(){
   
 }
 
-void callback(const hector_uav_msgs::Altimeter::ConstPtr& msg) {
-  cout<<"callback";
-  ROS_INFO("I heard: [%d]", int(msg->altitude));
-}
 
 /** Main function to start the env node. */
 int main(int argc, char *argv[])
@@ -411,7 +413,6 @@ int main(int argc, char *argv[])
   ros::TransportHints noDelay = ros::TransportHints().tcpNoDelay(true);
   ros::Subscriber rl_action =  node.subscribe("rl_agent/rl_action", qDepth, processAction, noDelay);
   ros::Subscriber rl_exp_info =  node.subscribe("rl_agent/rl_experiment_info", qDepth, processEpisodeInfo, noDelay);
-  ros::Subscriber quadrotor_state = node.subscribe("/altimeter", qDepth, callback, noDelay);
 
   // publish env description, first state
   // Setup RL World
