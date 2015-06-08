@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rl_env)
 
-find_package(catkin REQUIRED COMPONENTS roscpp std_msgs rl_msgs tf rl_common)
+find_package(catkin REQUIRED COMPONENTS roscpp std_msgs rl_msgs tf rl_common hector_uav_msgs)
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 catkin_package(
     INCLUDE_DIRS include
     LIBRARIES envlib
-    CATKIN_DEPENDS roscpp std_msgs rl_msgs tf rl_common
+    CATKIN_DEPENDS roscpp std_msgs rl_msgs tf rl_common hector_uav_msgs
     DEPENDS
 )
 

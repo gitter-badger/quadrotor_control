@@ -9,6 +9,7 @@
 
 #include <ros/callback_queue.h>
 #include <tf/transform_broadcaster.h>
+#include <hector_uav_msgs/Altimeter.h>
 
 #include <rl_common/core.hh>
 #include <rl_common/Random.h>
@@ -228,6 +229,10 @@ void initEnvironment(){
   
 }
 
+void callback(const hector_uav_msgs::Altimeter::ConstPtr& msg) {
+  cout<<"callback";
+  ROS_INFO("I heard: [%d]", int(msg->altitude));
+}
 
 /** Main function to start the env node. */
 int main(int argc, char *argv[])
@@ -406,6 +411,7 @@ int main(int argc, char *argv[])
   ros::TransportHints noDelay = ros::TransportHints().tcpNoDelay(true);
   ros::Subscriber rl_action =  node.subscribe("rl_agent/rl_action", qDepth, processAction, noDelay);
   ros::Subscriber rl_exp_info =  node.subscribe("rl_agent/rl_experiment_info", qDepth, processEpisodeInfo, noDelay);
+  ros::Subscriber quadrotor_state = node.subscribe("/altimeter", qDepth, callback, noDelay);
 
   // publish env description, first state
   // Setup RL World

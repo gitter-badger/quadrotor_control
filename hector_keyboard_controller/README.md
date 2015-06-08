@@ -31,5 +31,5 @@ Linear velocities control:
    1. Wait for gazebo to load and the scene to be setup
  1. Run our twist-controller
    1. `source ~/catkin_ws/devel/setup.sh`
-   1. `roslaunch quadrotor_controller keyboard.py`
+   1. `roslaunch hector_keyboard_controller hector_keyboard.launch`
 

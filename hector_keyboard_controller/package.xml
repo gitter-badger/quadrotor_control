@@ -1,13 +1,11 @@
 <package>
-  <name>quadrotor_controller</name>
+  <name>hector_keyboard_controller</name>
   <version>0.1.0</version>
-  <description>The quadrotor_controller package has various controllers for the hector_quadrotor</description>
+  <description>The hector_keyboard_controller package has various controllers for the hector_quadrotor</description>
 
   <maintainer email="kunalgrover05@gmail.com">Kunal Grover</maintainer>
 
   <license>MIT</license>
-
-  <url type="repository">https://github.com/Quadrotor-RL/quadrotor_controller</url>
 
   <!-- Dependencies which this package needs to build itself. -->
   <buildtool_depend>catkin</buildtool_depend>
